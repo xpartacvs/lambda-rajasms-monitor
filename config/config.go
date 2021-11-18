@@ -117,13 +117,23 @@ func read() *Config {
 
 	return &Config{
 		logMode:    logmode,
-		rjsApiUrl:  strings.TrimSpace(fang.GetString("rajasms.api.url")),
-		rjsApiKey:  strings.TrimSpace(fang.GetString("rajasms.api.key")),
+		rjsApiUrl:  setDefaultString(fang.GetString("rajasms.api.url"), "", true),
+		rjsApiKey:  setDefaultString(fang.GetString("rajasms.api.key"), "", true),
 		rjsBalance: balance,
 		rjsPeriod:  period,
-		disHook:    strings.TrimSpace(fang.GetString("discord.webhookurl")),
-		disBotName: strings.TrimSpace(fang.GetString("discord.bot.name")),
-		disBotAva:  strings.TrimSpace(fang.GetString("discord.bot.avatarurl")),
+		disHook:    setDefaultString(fang.GetString("discord.webhookurl"), "", true),
+		disBotName: setDefaultString(fang.GetString("discord.bot.name"), "AWS Lambda - RajaSMS Monitor", true),
+		disBotAva:  setDefaultString(fang.GetString("discord.bot.avatarurl"), "https://adsmedia.co.id/wp-content/uploads/2017/07/cropped-adsmedia-LOGO-100x100-270x270.jpg", true),
 		disBotMsg:  botMsg,
 	}
+}
+
+func setDefaultString(value, fallback string, trimSpace bool) string {
+	if trimSpace {
+		value = strings.TrimSpace(value)
+	}
+	if len(value) <= 0 {
+		return fallback
+	}
+	return value
 }

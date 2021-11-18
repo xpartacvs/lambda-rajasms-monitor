@@ -42,7 +42,7 @@ func (p *Webhook) AddReminder(margin, balance, grace uint, expiry time.Time) *We
 	moneyMargin := ac.FormatMoney(margin)
 	remainingDays := uint(time.Until(expiry).Hours() / 24)
 	title := "Saldo Akun Minim"
-	desc := "Saldo kurang dari " + moneyMargin + "Segera lakukan topup atau SMS tidak bisa terkirim."
+	desc := "Saldo kurang dari " + moneyMargin + " Segera lakukan topup atau SMS tidak bisa terkirim."
 
 	if remainingDays <= grace {
 		title = "Mendekati Tanggal Kedaluarsa"
